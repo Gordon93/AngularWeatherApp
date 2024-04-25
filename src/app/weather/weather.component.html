@@ -1,0 +1,30 @@
+<mat-tab-group>
+  <div *ngFor="let forecast of forecasts">
+    <mat-tab label="{{ forecast.city.name }}">
+      <h2>Next Hours</h2>
+      <div *ngFor="let item of forecast.list.slice(0, 3)">
+        <br />
+        Temperature: {{ item.main.temp }} <br />
+        Conditions: {{ item.weather[0].description }} <br />
+        <img
+          src="https://openweathermap.org/img/wn/
+        {{ forecast.list[0].weather[0].icon }} @2x.png"
+        />
+        <br />
+        {{ item.dt_txt }}
+        <br />
+      </div>
+      <br />
+      <h2>Next 5 days</h2>
+      <div *ngFor="let item of forecast.list; let i = index">
+        <div *ngIf="i % 8 == 0">
+          <br />
+          Max Temperature: {{ item.main.temp_max }} <br />
+          Min Temperature: {{ item.main.temp_min }} <br />
+          Conditions: {{ item.weather[0].description }} <br />
+          Date: {{ item.dt_txt }}
+        </div>
+      </div>
+    </mat-tab>
+  </div>
+</mat-tab-group>
