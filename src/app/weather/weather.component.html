@@ -1,30 +1,59 @@
-<mat-tab-group>
-  <div *ngFor="let forecast of forecasts">
+<h1 align="center" style="color: blue">Simple Weather</h1>
+<mat-tab-group backgroundColor="accent">
+  <div *ngFor="let forecast of forecasts; index as i">
     <mat-tab label="{{ forecast.city.name }}">
-      <h2>Next Hours</h2>
-      <div *ngFor="let item of forecast.list.slice(0, 3)">
-        <br />
-        Temperature: {{ item.main.temp }} <br />
-        Conditions: {{ item.weather[0].description }} <br />
-        <img
-          src="https://openweathermap.org/img/wn/
-        {{ forecast.list[0].weather[0].icon }} @2x.png"
-        />
-        <br />
-        {{ item.dt_txt }}
-        <br />
-      </div>
+      <h2 style="color: blue; padding: 10px">Next Hours</h2>
+      <table style="width: 100%">
+        <tr>
+          <td align="center" *ngFor="let item of forecast.list.slice(0, 4)">
+            <br />
+            {{ item.main.temp | number: "1.0-0" }} &#8451;<br />
+            <img
+              src="https://openweathermap.org/img/wn/{{
+                item.weather[0].icon
+              }}.png"
+            />
+            <br />
+            {{ item.dt_txt | date: "HH:mm a'" }}
+            <br />
+          </td>
+        </tr>
+      </table>
       <br />
-      <h2>Next 5 days</h2>
-      <div *ngFor="let item of forecast.list; let i = index">
-        <div *ngIf="i % 8 == 0">
-          <br />
-          Max Temperature: {{ item.main.temp_max }} <br />
-          Min Temperature: {{ item.main.temp_min }} <br />
-          Conditions: {{ item.weather[0].description }} <br />
-          Date: {{ item.dt_txt }}
-        </div>
-      </div>
+      <br />
+      <h2 style="color: blue; padding: 10px">Next 5 days</h2>
+      <table width="50%">
+        <tr *ngFor="let item of forecast.list; let j = index">
+          <td *ngIf="j % 8 == 0">
+            <table align="center" style="width: 100%">
+              <tr>
+                <td align="center">
+                  <img
+                    src="https://openweathermap.org/img/wn/{{
+                      item.weather[0].icon
+                    }}.png"
+                  />
+                </td>
+                <td align="center">
+                  <span style="font-weight: bold">
+                    {{ item.dt_txt | date: "EEE" }} ,
+                    {{ item.dt_txt | date: "MMMM" }}
+                    {{ item.dt_txt | date: "dd" }}
+                  </span>
+                  <br />
+                  {{ item.weather[0].description }}
+                </td>
+                <td align="center" style="font-weight: bold">
+                  {{ maxTemps[i][j / 8] | number: "1.0-0" }} &#8451;
+                </td>
+                <td align="center" style="font-weight: bold">
+                  {{ minTemps[i][j / 8] | number: "1.0-0" }} &#8451;
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
     </mat-tab>
   </div>
 </mat-tab-group>
